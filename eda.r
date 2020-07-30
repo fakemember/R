@@ -1,3 +1,4 @@
+#EDA
 letval <- function(x, k = 4) {
   LV <- c("M", "F", "E", "D", "C", "B", "A", "Z", "Y", "X", "W")
   out <- array(NA, c(k, 6))
