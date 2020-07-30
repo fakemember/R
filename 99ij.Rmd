@@ -1,0 +1,123 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+This is an [R Markdown](http://rmarkdown.rstudio.com) Notebook. When you execute code within the notebook, the results appear beneath the code. 
+
+Try executing this chunk by clicking the *Run* button within the chunk or by placing your cursor inside it and pressing *Ctrl+Shift+Enter*. 
+
+```{r}
+library(ggplot2)
+ggplot(diamonds) + geom_point(aes(x=carat, y=price, color=cut)) + geom_smooth(aes(x=carat, y=price)) # Remove color from geom_smooth
+ggplot(diamonds, aes(x=carat, y=price)) + geom_point(aes(color=cut)) + geom_smooth()  # same but simpler
+
+
+
+ggplot(diamonds, aes(x=carat, y=price, color=cut, shape=color)) + geom_point()
+
+```
+```{r}
+library(ggplot2)
+gg <- ggplot(diamonds, aes(x=carat, y=price, color=cut)) + geom_point() + labs(title="Scatterplot", x="Carat", y="Price")  # add axis lables and plot title.
+print(gg)
+```
+
+```{r}
+gg1 <- gg + theme(plot.title=element_text(size=30, face="bold"), 
+                  axis.text.x=element_text(size=15), 
+                  axis.text.y=element_text(size=15),
+                  axis.title.x=element_text(size=25),
+                  axis.title.y=element_text(size=25)) + 
+  scale_color_discrete(name="Cut of diamonds")  # add title and axis text, change legend title.
+print(gg1)  # print the plot
+```
+
+```{r}
+gg1 + facet_wrap( ~ cut, ncol=3)  # columns defined by 'cut'
+```
+
+```{r}
+gg1 + facet_wrap(color ~ cut)
+```
+
+```{r}
+head(diamonds,20)
+```
+
+```{r}
+ggplot(diamonds, aes(x=carat, y=price, color=cut)) + geom_point() + geom_smooth() + coord_cartesian(ylim=c(0, 10000)) + labs(title="Coord_cartesian zoomed in!")
+```
+
+Add a new chunk by clicking the *Insert Chunk* button on the toolbar or by pressing *Ctrl+Alt+I*.
+```{r}
+p1 <- ggplot(diamonds, aes(x=carat, y=price, color=cut)) + geom_point() + geom_smooth() + theme(legend.position="none") + labs(title="legend.position='none'")  # remove legend
+p2 <- ggplot(diamonds, aes(x=carat, y=price, color=cut)) + geom_point() + geom_smooth() + theme(legend.position="top") + labs(title="legend.position='top'")  # legend at top
+p3 <- ggplot(diamonds, aes(x=carat, y=price, color=cut)) + geom_point() + geom_smooth() + labs(title="legend.position='coords inside plot'") + theme(legend.justification=c(1,0), legend.position=c(1,0))  # legend inside the plot.
+grid.arrange(p1, p2, p3, ncol=3)  # arrange
+```
+
+```{r}
+library(ggplot2)
+ggplot(midwest, aes(x=area, y=poptotal)) + 
+  geom_point() + 
+  geom_smooth(method="lm") + 
+  coord_cartesian(xlim=c(0,0.1), ylim=c(0, 1000000)) + 
+  labs(title="Area Vs Population", subtitle="From midwest dataset", y="Population", x="Area", caption="Midwest Demographics")
+```
+
+```{r}
+data("cars")
+head(cars,20)
+library(ggplot2)
+g1<-ggplot(cars,aes(x=speed,y=dist))
+g1=g1+geom_point()+geom_smooth(method = 'lm')+labs(title='plot for cars dataset',x='speed',y='distance')+theme(
+  panel.grid.major.y = element_blank(),
+  panel.grid.minor.y = element_blank()
+)
+plot(g1)
+```
+
+```{r}
+movies=read.csv('movies_hw1.csv')
+head(movies,20)
+movies=movies[,c(1,3,4,5,6)]
+movies=data.frame(movies)
+movies[,4]=factor(movies[,4])
+movies$Adventure=factor(movies$Adventure)
+movies=movies[1:200,]
+library(ggplot2)
+g1<-ggplot(movies,aes(x=runtime,y=vote_average))
+g1<-g1+geom_point(aes(color=Action,shape=Adventure))
+g1<-g1+ facet_wrap(Adventure ~ Action)+labs(title='movies')+theme(legend.position = 'top')
+plot(g1)
+```
+
+```{r}
+pima=read.csv('pima.csv')
+head(pima,20)
+library(ggplot2)
+g1=ggplot(pima,aes(x=BODY,y=PEDIGREE))
+g1=g1+theme(
+  panel.background = element_rect(fill = NA),
+  panel.grid.major = element_line(colour = "grey50"),
+  panel.ontop = TRUE
+)+geom_point()+geom_smooth(method = 'lm')+labs(x='body weight',y='pedigree(cm)')+theme(axis.line = element_line(size = 3, colour = "grey80"))
+plot(g1)
+```
+
+When you save the notebook, an HTML file containing the code and output will be saved alongside it (click the *Preview* button or press *Ctrl+Shift+K* to preview the HTML file).
+
+The preview shows you a rendered HTML copy of the contents of the editor. Consequently, unlike *Knit*, *Preview* does not run any R code chunks. Instead, the output of the chunk when it was last run in the editor is displayed.
+```{r}
+(movies[,-ncol(movies)])
+movies[,ncol(movies)]
+
+```
+```{r}
+0.251/sqrt(202/350*(1-202/350)*(1/202+1/148))
+25+1.96*sqrt(10)
+25-1.96*sqrt(10)
+
+```
+
